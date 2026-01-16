@@ -83,7 +83,7 @@ In this version, a server listens for incoming connections from clients on the l
    ```
    Follow the prompts to enter your username and start chatting!
 
-## Distributed Chat [PLANNED]
+## Distributed Chat (Planned)
 
 This feature is currently under development. Once implemented, it will extend the networking capabilities to support:
 - Robust communication between different machines.
