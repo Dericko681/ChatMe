@@ -18,6 +18,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -euo pipefail
           UNVERIFIED_COMMITS=$(gh api --paginate repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits --jq '.[] | select(.commit.verification.verified == false) | .sha')
           
           if [[ -n "$UNVERIFIED_COMMITS" ]]; then
