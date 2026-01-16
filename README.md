@@ -2,7 +2,7 @@
 
 <table>
     <thead align="center">
-        <tr border: 1px;>
+        <tr style="border: 1px;">
             <td><b>🐛 Issues</b></td>
             <td><b>🔔 Open PRs</b></td>
             <td><b>🔕 Closed PRs</b></td>
