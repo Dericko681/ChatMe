@@ -1,8 +1,8 @@
 # ChatMe - A Simple Chat Application in Rust
 
-<table >
+<table>
     <thead align="center">
-        <tr border: 1px;>
+        <tr style="border: 1px;">
             <td><b>🐛 Issues</b></td>
             <td><b>🔔 Open PRs</b></td>
             <td><b>🔕 Closed PRs</b></td>
@@ -17,136 +17,95 @@
     </tbody>
 </table>
 
+ChatMe is a chat application written in Rust that demonstrates concurrency and networking. The project explores Rust's standard library for threading, channels, and TCP communication.
 
-
-ChatMe is a simple chat application written in Rust that demonstrates how to use threads and channels for communication between senders and receivers. The application consists of two parts:
-
-Local Chat (Threading version): A multi-threaded, single-process implementation where messages are sent between sender and receiver threads within the same machine.
-Distributed Chat (Networking version): A TCP-based version where a client sends messages to a server, and the server receives and displays the messages. This version allows communication between different machines over a network.
+> [!NOTE]
+> Currently, the **Local Chat** (TCP-based on localhost) is the primary functional feature. The **Distributed Chat** version is a planned feature and currently serves as a placeholder.
 
 ## Table of Contents
 
-    Project Overview
-    Technologies Used
-    Local Chat (Threading)
-        Features
-        Setup Instructions
-        Running the Application
-    Distributed Chat (Networking)
-        Features
-        Setup Instructions
-        Running the Server
-        Running the Client
-    Contributing
-    License
+- [Project Overview](#project-overview)
+- [Technologies Used](#technologies-used)
+- [Local Chat (Networking on localhost)](#local-chat-networking-on-localhost)
+    - [Features](#features)
+    - [Setup Instructions](#setup-instructions)
+- [Distributed Chat (Planned)](#distributed-chat-planned)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Project Overview
 
-The ChatMe project is designed to demonstrate basic concepts around multi-threading and communication protocols in Rust. It consists of two main versions:
+The ChatMe project is designed to demonstrate basic concepts around multi-threading and communication protocols in Rust.
 
-Local Chat (Threading version): Both the sender and receiver are running in separate threads on the same machine and communicate through Rust's mpsc (multi-producer, single-consumer) channels.
-Distributed Chat (Networking version): Uses TCP sockets for communication between a client (sender) and a server (receiver), where the client can send messages to the server over a network connection.
+- **Local Chat (Networking version)**: Uses TCP sockets for communication between multiple clients and a central server running on `127.0.0.1`. Supports private messaging and broadcasting.
+- **Distributed Chat**: (Planned) An expanded version of the chat system designed for communication across different machines over a network.
 
-This project is intended for learning and experimentation with Rust's concurrency and networking capabilities.
-Technologies Used
+## Technologies Used
 
-Rust: The programming language used to implement the entire chat application.
-Standard Library: Utilized features from Rust's standard library including std::thread, std::sync::mpsc, and std::net for threading, channels, and networking respectively.
+- **Rust**: The core programming language.
+- **Standard Library**: Utilized features including `std::thread`, `std::sync`, and `std::net`.
 
-## Local Chat (Threading)
+## Local Chat (Networking on localhost)
 
-In this version, both the sender and receiver are running as separate threads within the same process. They communicate through an in-memory channel (mpsc::channel), simulating a real-time message exchange.
-Features
-Multi-threaded design with sender and receiver running on separate threads.
-Communication between threads is achieved using Rust channels (mpsc).
-Simple message passing using a Message struct that contains a sender's name and message cont
+In this version, a server listens for incoming connections from clients on the local machine. Clients can connect, choose a username, and send messages to others.
 
-## Setup Instructions
+### Features
 
-Clone the Repository:
+- **Central Server**: Handles multiple concurrent client connections.
+- **Broadcasting**: Messages sent by a client are broadcast to all other connected users.
+- **Private Messaging**: Send a message to a specific user using `@username message`.
+- **Exit Command**: Type `/exit` to disconnect safely.
 
-```
-git clone https://github.com/Dericko681/ChatMe.git
-cd chatme
-```
+### Setup Instructions
 
-Install Rust (if not already installed): Follow the official instructions: https://www.rust-lang.org/learn/get-started
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Dericko681/ChatMe.git
+   cd ChatMe
+   ```
 
-Build the Project: Inside the project directory, run the following command to build the project:
+2. **Build the Project**:
+   ```bash
+   cargo build
+   ```
 
-```
-cargo build
-```
+3. **Run the Server**:
+   In one terminal window, start the server:
+   ```bash
+   cargo run -- server
+   ```
+   The server will listen on `127.0.0.1:7878` by default.
 
-Run the Application: To run the local chat version, simply run the following command:
+4. **Run the Client**:
+   In a separate terminal window, start the client:
+   ```bash
+   cargo run -- client
+   ```
+   Follow the prompts to enter your username and start chatting!
 
-```
-cargo run
-```
+## Distributed Chat (Planned)
 
-This will start the application with multiple sender threads, each sending messages to a receiver thread.
-
-Running the Application
-
-When you run the program, it will simulate two sender threads sending messages to a receiver thread. The output will look like this:
-
-Sent message: Hello from Sender 1
-Sent message: Second message from Sender 1
-Received message from Sender 1: Hello from Sender 1
-Received message from Sender 1: Second message from Sender 1
-Sent message: Hello from Sender 2
-Sent message: Second message from Sender 2
-Received message from Sender 2: Hello from Sender 2
-Received message from Sender 2: Second message from Sender 2
-
-## Distributed Chat (Networking)
-
-In this version, a server listens for incoming connections from clients. A client connects to the server and sends messages, which are then displayed by the server.
-Features
-
-    Server listens for incoming connections on a specified IP and port.
-    Client connects to the server and sends messages.
-    Communication between the client and server is done using TCP sockets.
-
-## Setup Instructions
-
-
-Run the Server: In one terminal window, run the server (this will listen for incoming connections on port 7878):
-
-cargo run --bin server
-
-Run the Client: In a separate terminal window, run the client to send messages to the server. Make sure the server is running first!
-
-    cargo run --bin client
-
- The client will connect to the server on 127.0.0.1:7878 by default and send a message. The server will print the received message.
-
-Running the Server
-
-    The server listens on port 7878 by default and can accept multiple client connections.
-    It will spawn a new thread to handle each incoming connection and print the received messages.
-
-Running the Client
-
-    The client connects to the server using TcpStream::connect().
-    It will prompt the user to input a message and send it to the server.
-    After sending the message, the client will exit.
+This feature is currently under development. Once implemented, it will extend the networking capabilities to support:
+- Robust communication between different machines.
+- Enhanced discovery and connection management.
+- Integration with external network protocols.
 
 ## Contributing
 
 We welcome contributions! To contribute to ChatMe, follow these steps:
 
-    Fork the repository.
-    Create a new branch for your feature (git checkout -b feature/your-feature).
-    Make your changes.
-    Commit your changes (git commit -am 'Add new feature').
-    Push to your branch (git push origin feature/your-feature).
-    Open a pull request.
+1. Fork the repository.
+2. Create a new branch for your feature (`git checkout -b feature/your-feature`).
+3. Make your changes.
+4. Commit your changes (`git commit -am 'Add new feature'`).
+5. Push to your branch (`git push origin feature/your-feature`).
+6. Open a pull request.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-Additional Notes
+This project is licensed under the MIT License - see the [LICENSE](file:///Users/admin/projects/Project/clones/ChatMe/LICENSE) file for details.
 
-    If you're looking to extend this project, consider implementing advanced features like message encryption, user authentication, or saving chat history to a database.
-    You can also experiment with adding a GUI using libraries like gtk-rs or crossterm for terminal-based UIs.
+---
+
+**Additional Notes**:
+- Future improvements include message encryption, user authentication, and a TUI/GUI.
