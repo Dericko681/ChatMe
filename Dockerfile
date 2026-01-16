@@ -1,22 +1,18 @@
-FROM rust:1.73-alpine AS builder
 
-RUN apk add --no-cache musl-dev
+FROM rust:latest AS builder
 
 WORKDIR /app
 
+COPY Cargo.toml Cargo.lock ./
+
 COPY . .
-COPY Cargo.lock Cargo.toml /app/
+RUN cargo build --release --locked --bin ChatMe
 
-RUN cargo build --release
-RUN cargo build --release --bin server
-RUN cargo build --release --bin client
+FROM debian:bookworm-slim
 
-FROM alpine:3.19
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
 
-RUN apk add --no-cache ca-certificates
+COPY --from=builder /app/target/release/ChatMe /usr/local/bin/ChatMe
 
-COPY --from=builder /app/target/release/ /usr/local/bin
-COPY --from=builder /app/target/release/server /usr/local/bin/
-COPY --from=builder /app/target/release/client /usr/local/bin/
-
+ENTRYPOINT ["/usr/local/bin/ChatMe"]
 CMD ["server"]

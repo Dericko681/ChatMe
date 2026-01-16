@@ -17,8 +17,6 @@
     </tbody>
 </table>
 
-
-
 ChatMe is a simple chat application written in Rust that demonstrates how to use threads and channels for communication between senders and receivers. The application consists of two parts:
 
 Local Chat (Threading version): A multi-threaded, single-process implementation where messages are sent between sender and receiver threads within the same machine.
@@ -65,22 +63,22 @@ Simple message passing using a Message struct that contains a sender's name and 
 
 Clone the Repository:
 
-```
+```rust
 git clone https://github.com/Dericko681/ChatMe.git
 cd chatme
 ```
 
-Install Rust (if not already installed): Follow the official instructions: https://www.rust-lang.org/learn/get-started
+Install Rust (if not already installed): Follow the official instructions: <https://www.rust-lang.org/learn/get-started>
 
 Build the Project: Inside the project directory, run the following command to build the project:
 
-```
+```rs
 cargo build
 ```
 
 Run the Application: To run the local chat version, simply run the following command:
 
-```
+```rs
 cargo run
 ```
 
@@ -110,14 +108,17 @@ Features
 
 ## Setup Instructions
 
-
 Run the Server: In one terminal window, run the server (this will listen for incoming connections on port 7878):
 
+```rs
 cargo run --bin server
+```
 
 Run the Client: In a separate terminal window, run the client to send messages to the server. Make sure the server is running first!
 
-    cargo run --bin client
+ ```rs
+cargo run --bin client
+```
 
  The client will connect to the server on 127.0.0.1:7878 by default and send a message. The server will print the received message.
 
