@@ -15,15 +15,17 @@ jobs:
           fetch-depth: 0 # Fetch full history
 
       - name: Check Verified Commits
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          UNVERIFIED_COMMITS=$(git log origin/${{ github.base_ref }}..HEAD --pretty=format:"%h %G?" | grep -v "G$" || true)
+          UNVERIFIED_COMMITS=$(gh api --paginate repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/commits --jq '.[] | select(.commit.verification.verified == false) | .sha')
           
           if [[ -n "$UNVERIFIED_COMMITS" ]]; then
-            echo "❌ Unverified commits detected:"
-            echo "Please try and verify your commits"
+            echo "❌ Unverified commits detected in this Pull Request:"
             echo "$UNVERIFIED_COMMITS"
+            echo "Please ensure all commits are signed and verified."
             exit 1
           else
-            echo "✅ All commits are verified."
+            echo "✅ All commits in this PR are verified."
             echo "We will get back to you as fast as possible ✨"
           fi
