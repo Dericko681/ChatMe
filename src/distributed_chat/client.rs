@@ -1,9 +1,10 @@
 use std::io::{self, BufRead, BufReader, Write};
-use std::net::TcpStream;
 use std::thread;
 
+use crate::utils::network::{connect_with_retry, DEFAULT_ADDR};
+
 pub fn start_client() {
-    let mut stream = TcpStream::connect("127.0.0.1:7878").expect("Failed to connect to server");
+    let mut stream = connect_with_retry(DEFAULT_ADDR, 3).expect("Failed to connect to server");
 
     println!("Enter your username: ");
     let mut username = String::new();
