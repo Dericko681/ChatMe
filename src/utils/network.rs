@@ -47,7 +47,10 @@ pub fn connect_with_retry(addr: &str, max_retries: u32) -> io::Result<TcpStream>
             }
         }
     }
-    Err(io::Error::new(io::ErrorKind::TimedOut, "Max retries reached"))
+    Err(io::Error::new(
+        io::ErrorKind::TimedOut,
+        "Max retries reached",
+    ))
 }
 
 #[cfg(test)]
