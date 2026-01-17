@@ -1,16 +1,16 @@
 use std::collections::HashMap;
 use std::io::{BufRead, BufReader, Write};
-use std::net::{TcpListener, TcpStream};
+use std::net::TcpStream;
 use std::sync::{Arc, Mutex};
 use std::thread;
+
+use crate::utils::network::{bind_server, DEFAULT_ADDR};
 
 type Clients = Arc<Mutex<HashMap<String, TcpStream>>>;
 
 pub fn start_server() {
-    let listener = TcpListener::bind("127.0.0.1:7878").expect("Failed to bind to port 7878");
+    let listener = bind_server(DEFAULT_ADDR).expect("Failed to bind to server");
     let clients: Clients = Arc::new(Mutex::new(HashMap::new()));
-
-    println!("Server running on 127.0.0.1:7878...");
 
     for stream in listener.incoming() {
         match stream {
