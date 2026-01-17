@@ -1,6 +1,5 @@
 reviews:
-  enabled: true
+  auto_review: true
   review_status: true
-  branches:
-    include:
-      - "*"
+  base_branches:
+    - ".*"
